@@ -15,8 +15,6 @@ User = get_user_model()
 POSTS_PER_PAGE = 10
 
 
-# -------- Вспомогательные функции (вынесены отдельно по ТЗ) --------
-
 def filter_published_posts(queryset):
     """Фильтрация записей по опубликованности."""
     return queryset.filter(
@@ -57,7 +55,6 @@ def index(request):
 def post_detail(request, post_id):
     """Отображение полного описания публикации."""
     post = get_object_or_404(Post, pk=post_id)
-    # Не автор видит только опубликованные посты с прошлой датой
     if request.user != post.author:
         post = get_object_or_404(
             filter_published_posts(Post.objects.select_related(
